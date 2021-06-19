@@ -9,9 +9,11 @@ const Navbar = ({ cart }) => {
 
   useEffect(() => {
     let count = 0;
-    cart.forEach((item) => {
-      count += item.qty;
-    });
+    // cart.forEach((item) => {
+    //   count += item.qty;
+    // });
+
+    count += cart.length
 
     setCartCount(count);
   }, [cart, cartCount]);
