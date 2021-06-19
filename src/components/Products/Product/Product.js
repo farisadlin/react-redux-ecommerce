@@ -8,7 +8,7 @@ import {
   loadCurrentItem,
   addToCart,
 } from "../../../redux/Shopping/shopping-actions";
-
+// Daftar product diantar melalui props oleh Products.js
 const Product = ({ product, addToCart, loadCurrentItem }) => {
   return (
     <div className={styles.product}>
@@ -25,8 +25,10 @@ const Product = ({ product, addToCart, loadCurrentItem }) => {
       </div>
 
       <div className={styles.product__buttons}>
+        {/* Link dari react router diberikan agar saat diklik tombol, dapat membuat secara otomatis slug berdasarkan id product*/}
         <Link to={`/product/${product.id}`}>
           <button
+          // daftar product yang diklik, akan dilempar ke state yang ada di Reducer
             onClick={() => loadCurrentItem(product)}
             className={`${styles.buttons__btn} ${styles.buttons__view}`}
           >
@@ -34,6 +36,7 @@ const Product = ({ product, addToCart, loadCurrentItem }) => {
           </button>
         </Link>
         <button
+        // product yang dipilih, akan ditambahkan quantity-nya ke 
           onClick={() => addToCart(product.id)}
           className={`${styles.buttons__btn} ${styles.buttons__add}`}
         >

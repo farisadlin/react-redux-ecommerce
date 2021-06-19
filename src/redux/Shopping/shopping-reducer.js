@@ -35,22 +35,27 @@ const INITIAL_STATE = {
 };
 
 const shopReducer = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
+  const {type, payload} = action
+  switch (type) {
     case ADD_TO_CART:
-      // Great Item data from products array
+      // Get Item data from products array
       const item = state.products.find(
-        (product) => product.id === action.payload.id
+        (product) => product.id === payload.id
       );
+
+      console.log(item)
       // Check if Item is in cart already
       const inCart = state.cart.find((item) =>
-        item.id === action.payload.id ? true : false
+        item.id === payload.id ? true : false
       );
 
       return {
         ...state,
+        // Jika product yang ada di cart itu ada, maka product yang sama, quantity-nya akan bertambah satu setiap kali diklik.
+        // Jika product belum ada di cart, maka product akan ditambahkan quantity-nya menjadi satu.
         cart: inCart
           ? state.cart.map((item) =>
-              item.id === action.payload.id
+              item.id === payload.id
                 ? { ...item, qty: item.qty + 1 }
                 : item
             )
@@ -59,21 +64,22 @@ const shopReducer = (state = INITIAL_STATE, action) => {
     case REMOVE_FROM_CART:
       return {
         ...state,
-        cart: state.cart.filter((item) => item.id !== action.payload.id),
+        cart: state.cart.filter((item) => item.id !== payload.id),
       };
     case ADJUST_ITEM_QTY:
       return {
+        // Jika product ada, maka quantity dapat ditambahkan sesuai input. Jika tidak ada, maka item kembali ke state sedia kala
         ...state,
         cart: state.cart.map((item) =>
-          item.id === action.payload.id
-            ? { ...item, qty: +action.payload.qty }
+          item.id === payload.id
+            ? { ...item, qty: +payload.qty }
             : item
         ),
       };
     case LOAD_CURRENT_ITEM:
       return {
         ...state,
-        currentItem: action.payload,
+        currentItem: payload,
       };
     default:
       return state;
